@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requirements Validator</title>
+
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            type="application/javascript">
+    </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<h1>Requirements Validator</h1>
+<div class="container">
+
+    <label for="requirement" class="input-group">
+        Please enter the text for your requirement here:
+    </label>
+
+    <textarea name="requirement" id="requirement" cols="100" rows="3"></textarea>
+    <p>Please perform your own checks for the following: </p>
+    <ul>
+        <li>
+            Unambiguous
+            <input type="checkbox" id="unambigious">
+        </li>
+        <li>
+            Correct
+            <input type="checkbox" id="correct">
+        </li>
+        <li>
+            Feasible (realistic, possible)
+            <input type="checkbox" id="feasible">
+        </li>
+        <li>
+            Independent
+            <input type="checkbox" id="independent">
+        </li>
+        <li>
+            Atomic
+            <input type="checkbox" id="atomic">
+        </li>
+        <li>
+            Necessary
+            <input type="checkbox" id="necessary">
+        </li>
+        <li>
+            Implementation-free (abstract)
+            <input type="checkbox" id="implementation-free">
+        </li>
+    </ul>
+    <p>We will check the following for you, but you should also perform your own checks</p>
+    <ul>
+        <li>
+            Testable (verifiable)
+            <input type="checkbox" id="testable">
+            <p id="testable-message"></p>
+        </li>
+        <li>
+            Clear (concise, terse, simple, precise)
+            <input type="checkbox" id="clear">
+            <p id="clear-message"></p>
+        </li>
+        <li>
+            Understandable
+            <input type="checkbox" id="understandable">
+            <p id="understandable-message"></p>
+        </li>
+
+    </ul>
+</div>
+</body>
+<script>
+    var requirement = document.getElementById('requirement');
+
+    requirement.onchange = function () {
+
+        const currentValue = this.value;
+        var testTestable = function (currentValue) {
+
+            const dangerWords =
+                [
+                    "robust",
+                    "safe",
+                    "accurate",
+                    "effective",
+                    "efficient",
+                    "expandable",
+                    "flexible",
+                    "maintainable",
+                    "reliable",
+                    "user-friendly",
+                    "adequate",
+                    "quickly",
+                    "safely"
+                ];
+
+            var badWordsUsed = [];
+
+            var words = currentValue.split(' ');
+            words.forEach(function (currentWord) {
+                if (dangerWords.indexOf(currentWord) >= 0) {
+                    badWordsUsed.push(currentWord);
+                }
+            })
+            return badWordsUsed;
+        };
+
+        function testConcise(currentValue) {
+            return currentValue.split(' ').length;
+        }
+
+        function testUnderstandable(currentValue) {
+
+            const dangerWords =
+                [
+                    "will",
+                    "must",
+                    "may"
+                ];
+
+            var badWordsUsed = [];
+
+            var words = currentValue.split(' ');
+            words.forEach(function (currentWord) {
+                if (dangerWords.indexOf(currentWord) >= 0) {
+                    badWordsUsed.push(currentWord);
+                }
+            })
+            return badWordsUsed;
+
+        }
+
+        var testable = testTestable(currentValue);
+        var concise = testConcise(currentValue);
+        var understandable = testUnderstandable(currentValue);
+
+        var testableMessasge = document.getElementById('testable-message');
+        testableMessasge.style = "color: red";
+        testableMessasge.innerText = testable.length > 0 ? "Bad words used: " + testable.join(', ') + '.' : "";
+        if (testableMessasge.innerText === "") {
+            var testableElement = document.getElementById('testable');
+            testableElement.checked = true;
+        }
+
+        var consiceMessage = document.getElementById('clear-message');
+        consiceMessage.style = "color: red";
+        consiceMessage.innerText = concise >= 200 ? "Excessive length: More than 200 words used" : "";
+        if (consiceMessage.innerText === "") {
+            var consiceElement = document.getElementById('clear');
+            consiceElement.checked = true;
+        }
+
+        var understandableMessage = document.getElementById('understandable-message');
+        understandableMessage.style = "color: red";
+        understandableMessage.innerText = understandable.length > 0 ? "You should use 'shall' instead of : " + understandable.join(', ') + '.' : "";
+        if (understandableMessage.innerText === "") {
+            var understandableElement = document.getElementById('understandable');
+            understandableElement.checked = true;
+        }
+    }
+</script>
+</html>
