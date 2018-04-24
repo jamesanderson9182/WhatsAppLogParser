@@ -83,7 +83,7 @@
                             if(strpos($message, "<‎attached>") > 0){
                                 $image = trim(explode("<‎attached>", $message)[0]);
                                 $imagePath = "/" . $name . "/" . $image;
-                                if(file_exists(__DIR__ . $imagePath)){
+                                if (file_exists(__DIR__ . str_replace($imagePath, "/", DIRECTORY_SEPARATOR))) {
                                     $message = '<a href="' . $imagePath . '"><img src="' . $imagePath . '"></a>';
                                 }
                             }
