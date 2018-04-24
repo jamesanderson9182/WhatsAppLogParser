@@ -1,6 +1,6 @@
 PHP Log parser
 ===============
-
+![Screen Shot Of Whats App Log Parser](https://preview.ibb.co/cKc7uH/Screen_Shot_2018_04_24_at_23_48_33.png)
 # To run: 
 ```php
 cd WhatsAppLogParser
