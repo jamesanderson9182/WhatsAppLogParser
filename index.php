@@ -15,6 +15,11 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        img {
+            width:150px;
+        }
+    </style>
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
@@ -75,9 +80,16 @@
                             // Handle text between ` and put it into code tags
                             $message = preg_replace("/`(.*?)`/", '<code>\1</code>', $message);
                             $dateString = $date == $previousDate ? "" : "<h1>" . $date->format('D jS M') . "</h1>";
+                            if(strpos($message, "<‎attached>") > 0){
+                                $image = trim(explode("<‎attached>", $message)[0]);
+                                $imagePath = "/" . $name . "/" . $image;
+                                if(file_exists(__DIR__ . $imagePath)){
+                                    $message = '<a href="' . $imagePath . '"><img src="' . $imagePath . '"></a>';
+                                }
+                            }
                             $previousDate = $date;
-                            $name = $split[1];
-                            preg_match_all('/[A-Z]+/', $name, $initials);
+                            $userName = $split[1];
+                            preg_match_all('/[A-Z]+/', $userName, $initials);
                             $initialsString = implode('', $initials[0]);
                             ?>
                             <?= $dateString ?>
