@@ -18,8 +18,11 @@ class WhatsAppLogParserPage extends Page
         <div class="container">
         <ul class="nav nav-tabs">
             <?php
+            $active = ' class="active"';
             foreach ($logs as $name => $log) {
-                print '<li><a data-toggle="tab" href="#' . $name . '">' . $name . '</a></li>';
+                print '<li'.$active.'><a data-toggle="tab" href="#' . $name . '">' . $name . '</a></li>';
+                // Only the first tab should be active
+                $active = "";
             }
             ?>
         </ul>
